@@ -1,6 +1,6 @@
-import { CheckCircle2Icon, MoveUpRightIcon } from "lucide-react"
+import { MoveUpRightIcon } from "lucide-react"
 import { useRef } from "react"
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
+import { Avatar, AvatarImage } from "./components/ui/avatar"
 import { Button } from "./components/ui/button"
 import { Checkbox } from "./components/ui/checkbox"
 import {
@@ -46,7 +46,11 @@ export function IndexPage() {
 	const formRef = useRef<HTMLFormElement>(null)
 
 	const profile = useLineProfile()
-	// const profile = null
+	// const profile: LineProfile = {
+	// 	userId: "userIdaaaaa",
+	// 	displayName: "服部",
+	// 	pictureUrl: "https://github.com/evilrabbit.png",
+	// }
 
 	const onSubmit = () => {
 		if (!formRef.current) return
@@ -58,14 +62,17 @@ export function IndexPage() {
 		<div className="flex min-h-svh w-full flex-col items-center">
 			<div className="mx-auto my-8 w-full max-w-2xl px-4 space-y-6">
 				{profile ? (
-					<Alert>
-						<CheckCircle2Icon />
-						<AlertTitle>LINEログインが完了しました！</AlertTitle>
-						<AlertDescription>
-							{profile.displayName}
-							{profile.userId}
-						</AlertDescription>
-					</Alert>
+					<div className="flex gap-4 items-center">
+						<Avatar size="lg">
+							<AvatarImage src={profile.pictureUrl} />
+						</Avatar>
+						<div>
+							<div>{profile.displayName}</div>
+							<div className="text-muted-foreground leading-none">
+								{profile.userId}
+							</div>
+						</div>
+					</div>
 				) : (
 					<Button>
 						LINEログインをしてください
