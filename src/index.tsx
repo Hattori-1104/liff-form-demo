@@ -1,4 +1,6 @@
+import { CheckCircle2Icon, MoveUpRightIcon } from "lucide-react"
 import { useRef } from "react"
+import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Button } from "./components/ui/button"
 import { Checkbox } from "./components/ui/checkbox"
 import {
@@ -20,6 +22,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "./components/ui/select"
+import { useLineProfile } from "./use-liff"
 
 const OCCUPATIONS = [
 	"会社員",
@@ -42,6 +45,9 @@ const ITEM_ROWS = [0, 1, 2]
 export function IndexPage() {
 	const formRef = useRef<HTMLFormElement>(null)
 
+	const profile = useLineProfile()
+	// const profile = null
+
 	const onSubmit = () => {
 		if (!formRef.current) return
 		const formData = new FormData(formRef.current)
@@ -50,7 +56,23 @@ export function IndexPage() {
 
 	return (
 		<div className="flex min-h-svh w-full flex-col items-center">
-			<div className="mx-auto my-8 w-full max-w-2xl px-4">
+			<div className="mx-auto my-8 w-full max-w-2xl px-4 space-y-6">
+				{profile ? (
+					<Alert>
+						<CheckCircle2Icon />
+						<AlertTitle>LINEログインが完了しました！</AlertTitle>
+						<AlertDescription>
+							{profile.displayName}
+							{profile.userId}
+						</AlertDescription>
+					</Alert>
+				) : (
+					<Button>
+						LINEログインをしてください
+						<MoveUpRightIcon />
+					</Button>
+				)}
+
 				<form
 					onSubmit={(e) => {
 						e.preventDefault()
