@@ -10,6 +10,7 @@ type LineProfile = Awaited<ReturnType<typeof liff.getProfile>>
 
 export function useLineProfile() {
 	const [profile, setProfile] = useState<LineProfile | null>(null)
+	console.log(profile)
 
 	useEffect(() => {
 		const initLiff = async () => {
