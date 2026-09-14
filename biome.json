@@ -15,13 +15,40 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"preset": "recommended"
+			"suspicious": {
+				"noArrayIndexKey": "error",
+				"noUnknownAtRules": {
+					"level": "error",
+					"options": {
+						"ignore": [
+							"tailwind",
+							"apply",
+							"theme",
+							"source",
+							"utility",
+							"variant",
+							"custom-variant",
+							"plugin",
+							"config",
+							"reference"
+						]
+					}
+				}
+			}
+		},
+		"domains": {
+			"tailwind": "recommended"
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
 			"semicolons": "asNeeded"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {

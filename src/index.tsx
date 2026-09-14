@@ -22,7 +22,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "./components/ui/select"
+import { Layout } from "./layout"
 import { useLineProfile } from "./use-liff"
+
+const ENVIRONMENT = import.meta.env.VITE_PUBLIC_ENVIRONMENT ?? "development"
 
 const OCCUPATIONS = [
 	"会社員",
@@ -39,18 +42,12 @@ const ACCOUNT_TYPES = [
 	{ value: "futsu", label: "普通" },
 	{ value: "toza", label: "当座" },
 ]
-
 const ITEM_ROWS = [0, 1, 2]
 
 export function IndexPage() {
 	const formRef = useRef<HTMLFormElement>(null)
 
-	const profile = useLineProfile()
-	// const profile: LineProfile = {
-	// 	userId: "userIdaaaaa",
-	// 	displayName: "服部",
-	// 	pictureUrl: "https://github.com/evilrabbit.png",
-	// }
+	const profile = useLineProfile({ skip: ENVIRONMENT !== "production" })
 
 	const onSubmit = () => {
 		if (!formRef.current) return
@@ -59,8 +56,8 @@ export function IndexPage() {
 	}
 
 	return (
-		<div className="flex min-h-svh w-full flex-col items-center">
-			<div className="mx-auto my-8 w-full max-w-2xl px-4 space-y-6">
+		<Layout className="space-y-8">
+			<main className="py-8 w-full max-w-160 min-w-[256px] px-4 sm:px-8 bg-background space-y-8">
 				{profile ? (
 					<div className="flex gap-4 items-center">
 						<Avatar size="lg">
@@ -246,17 +243,23 @@ export function IndexPage() {
 
 								<Field>
 									<FieldLabel htmlFor="price">買取代金</FieldLabel>
-									<Input
-										id="price"
-										name="price"
-										type="number"
-										inputMode="numeric"
-										min={0}
-										step={1}
-										placeholder="10000"
-										required
-									/>
-									<FieldDescription>円単位でご入力ください。</FieldDescription>
+									<div className="flex gap-2 items-baseline">
+										<div className="shrink-0 text-muted-foreground">￥</div>
+										<Input
+											className="w-full shrink"
+											id="price"
+											name="price"
+											type="number"
+											inputMode="numeric"
+											min={0}
+											step={1}
+											placeholder="10000"
+											required
+										/>
+									</div>
+									{/* <FieldDescription>
+									10000円単位でご入力ください。
+								</FieldDescription> */}
 								</Field>
 							</FieldGroup>
 						</FieldSet>
@@ -400,15 +403,12 @@ export function IndexPage() {
 							</FieldGroup>
 						</FieldSet>
 
-						<Field orientation="horizontal" className="justify-end">
-							<Button type="reset" variant="outline">
-								リセット
-							</Button>
+						<Field orientation="responsive" className="justify-end">
 							<Button type="submit">送信する</Button>
 						</Field>
 					</FieldGroup>
 				</form>
-			</div>
-		</div>
+			</main>
+		</Layout>
 	)
 }

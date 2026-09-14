@@ -13,7 +13,13 @@ export interface LineProfile {
 	statusMessage?: string
 }
 
-export function useLineProfile() {
+const devProfile: LineProfile = {
+	userId: "userIdaaaaa",
+	displayName: "服部",
+	pictureUrl: "https://github.com/evilrabbit.png",
+}
+
+export function useLineProfile(options: { skip: boolean } = { skip: true }) {
 	const [profile, setProfile] = useState<LineProfile | null>(null)
 	console.log(profile)
 
@@ -32,8 +38,13 @@ export function useLineProfile() {
 				console.error(err)
 			}
 		}
-		initLiff()
-	}, [])
+		if (!options.skip) {
+			initLiff()
+		}
+	}, [options.skip])
 
+	if (options.skip) {
+		return devProfile
+	}
 	return profile
 }
